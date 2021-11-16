@@ -1,0 +1,77 @@
+@import url('http://fonts.cdnfonts.com/css/led-digital-7');
+
+:root{
+    --background-color: #4c5e7a;
+    --display-bg: rgb(48, 71, 24);
+    --display-fg: rgb(0, 0, 0);
+    --display-fonts: 'LED Digital 7', sans-serif;
+}
+
+*, *::before, *::after{
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+body {
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;    
+    gap: 4px;
+}
+
+/* Main calculator*/
+
+.calculator {
+    display: flex;
+    /* flex: 1; */
+    flex-direction: column;
+    border: 1px solid white;      
+    min-width: 320px;  
+    min-height: 480px;
+    margin-top: 80px;
+    padding: 4px;
+}
+
+/* Display*/
+
+.calculator .display {
+    height: 80px;
+    width: auto;
+    border: 1px solid white;
+    background-color: var(--display-bg);
+    color: var(--display-fg);
+    font-family: var(--display-fonts);
+    font-size: 70px;
+    text-align: right;
+}
+
+/* Header buttons*/
+
+.calculator .head-btns {
+    display: grid;
+    border: 1px solid white;
+    grid-template-columns: 2fr 1fr;
+    grid-gap: 12px;
+    padding: 3px;
+
+}
+
+button{
+    height: 48px;
+    border-radius: 12px;
+}
+
+/* Numbers buttons*/
+.numbers-btn{
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+}
+
+.left {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
