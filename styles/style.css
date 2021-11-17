@@ -1,10 +1,16 @@
 @import url('http://fonts.cdnfonts.com/css/led-digital-7');
+@import url('https://fonts.googleapis.com/css2?family=Changa&display=swap');
 
 :root{
     --background-color: #4c5e7a;
-    --display-bg: rgb(48, 71, 24);
+    --display-bg: rgb(57, 73, 40);
     --display-fg: rgb(0, 0, 0);
     --display-fonts: 'LED Digital 7', sans-serif;
+    --numbers-btn-bg: rgb(141, 135, 135);
+    --numbers-btn-fg: #fff;
+    --operators-btn-bg: rgb(89, 103, 126);
+    --operators-btn-fg: #fff;
+    --numbers-fonts: 'Changa', sans-serif;
 }
 
 *, *::before, *::after{
@@ -23,6 +29,11 @@ body {
     gap: 4px;
 }
 
+button{
+    height: 48px;
+    border-radius: 12px;
+}
+
 /* Main calculator*/
 
 .calculator {
@@ -32,8 +43,10 @@ body {
     border: 1px solid white;      
     min-width: 320px;  
     min-height: 480px;
+    /* max-width: 320px; */
+    /* max-height: 480px; */
     margin-top: 80px;
-    padding: 4px;
+    padding: 4px;    
 }
 
 /* Display*/
@@ -45,33 +58,90 @@ body {
     background-color: var(--display-bg);
     color: var(--display-fg);
     font-family: var(--display-fonts);
-    font-size: 70px;
-    text-align: right;
+    font-size: 48px;
+    /* text-align: right; */
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    box-shadow: 0px 0px 2px 2px black;
+                
 }
 
 /* Header buttons*/
 
 .calculator .head-btns {
     display: grid;
-    border: 1px solid white;
-    grid-template-columns: 2fr 1fr;
-    grid-gap: 12px;
-    padding: 3px;
-
+    /* border: 1px solid white; */
+    grid-template-columns: 1.75fr 1.25fr;
+    grid-gap: 4px;
+    padding-top: 5px;
 }
 
-button{
-    height: 48px;
-    border-radius: 12px;
+.head-btns > button{
+    background-color: var(--numbers-btn-bg);
+    color: var(--numbers-btn-fg);
+    font-size: 38px;
+    border: 1px solid white;
+    /* font-family: var(--numbers-fonts); */
+}
+
+.head-btns > #clear {
+    background-color: rgb(42, 4, 255);
 }
 
 /* Numbers buttons*/
+
 .numbers-btn{
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 1.75fr 1.25fr;
+    margin-top: 12px;
+    grid-gap: 4px;
 }
+
+.numbers-btn > .left > button, .right > button{
+    font-family: var(--numbers-fonts);
+    height: 58px;
+    background-color: var(--numbers-btn-bg);
+    color: var(--numbers-btn-fg);
+    font-size: 32px;
+    border: 1px solid white;    
+}
+
+.numbers-btn > .left > button:hover, .right > button:hover, .head-btns > button:hover{
+    transform: scale(1.02);
+    border: 2px solid white;
+}
+
+/* Left side*/
 
 .left {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 4px;
+}
+
+/* Right side*/
+
+.right {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 4px;
+    height: fit-content;
+}
+
+.right #ce {
+    grid-column: 1 / 3;
+    height: 58px;
+    background-color: rgb(243, 73, 73);
+}
+
+.right > button {
+    background-color: var(--operators-btn-bg);
+    color: var(--operators-btn-fg);
+    /* font-size: 32px; */
+    height: 58px;
+}
+
+.right #equal {
+    grid-column: 1 / 3;
 }

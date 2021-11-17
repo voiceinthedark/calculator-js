@@ -21,3 +21,13 @@ class Calculator {
     this._mather[name] = fn;
   }
 }
+
+const display = document.querySelector('.display');
+const numbersButtons = document.querySelectorAll('.number');
+let arrayOfNumbers = [];
+numbersButtons.forEach(button => {  
+  button.addEventListener('click', (e) => {
+    arrayOfNumbers.push(e.target.textContent);
+    display.textContent = arrayOfNumbers.join('');
+  })
+})
