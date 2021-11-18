@@ -1,11 +1,12 @@
 @import url('http://fonts.cdnfonts.com/css/led-digital-7');
 @import url('https://fonts.googleapis.com/css2?family=Changa&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
 
 :root{
     --background-color: #4c5e7a;
     --display-bg: rgb(57, 73, 40);
     --display-fg: rgb(0, 0, 0);
-    --display-fonts: 'LED Digital 7', sans-serif;
+    --display-fonts: 'Roboto Mono', monospace;
     --numbers-btn-bg: rgb(141, 135, 135);
     --numbers-btn-fg: #fff;
     --operators-btn-bg: rgb(89, 103, 126);
@@ -61,10 +62,17 @@ button{
     font-size: 48px;
     /* text-align: right; */
     display: flex;
-    align-items: center;
-    justify-content: flex-end;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-start;
     box-shadow: 0px 0px 2px 2px black;
                 
+}
+
+.display .display-header{
+    height: 20px;
+    font-size: 20px;
+    
 }
 
 /* Header buttons*/
