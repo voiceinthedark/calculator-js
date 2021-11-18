@@ -38,12 +38,19 @@ const operatorsButtons = document.querySelectorAll(".operator");
 
 
 let arrayOfNumbers = [];
-let leftSideNumber = [0];
-let rightSideNumber = [];
+let number = 0;
+// let leftSideNumber = [0];
+// let rightSideNumber = [];
 let equationResult = Number.MIN_VALUE;
-let leftNumber = 0;
-let rightNumber = 0;
+// let leftNumber = 0;
+// let rightNumber = 0;
 let operator = null;
+equationHistory = {
+  left: null,
+  operator: null,
+  right: null,
+  result: null,
+};
 
 
 /**
@@ -59,24 +66,54 @@ numbersButtons.forEach((button) => {
 operatorsButtons.forEach((button) => {
   button.addEventListener("click", (e) => {
     // debugger;
-    leftNumber = Number(leftSideNumber.join(''));
-    // rightNumber = 0;
-    operator = e.target.textContent;    
-    displayHeader.textContent = operator;    
-    _calculate();
-    
+    if(equationHistory.left == null){
+      number = Number(arrayOfNumbers.join(''));        
+      operator = e.target.textContent;
+      if(equationHistory.result){
+        equationHistory.left = equationHistory.result;
+        displayValue.textContent = equationHistory.left;
+        equationHistory.right =  number;
+        equationHistory.result = _calculate(equationHistory);
+      } else {
+        equationHistory.left = number;
+      }
+      equationHistory.operator = operator;      
+      // console.log(equationHistory);
+      arrayOfNumbers = [];
+      displayHeader.textContent = operator;  
+    } else {
+      number = Number(arrayOfNumbers.join("")); 
+      equationHistory.right = number;
+      let result = _calculate(equationHistory);
+      operator = e.target.textContent;
+      equationHistory.operator = operator;
+      // console.log(equationHistory);
+      equationHistory.result = result;
+      equationHistory.left = equationHistory.result;
+      equationHistory.right = null;      
+    }
   });
 });
 
-function _calculate() {
+/**
+ * Function to calculate the result of the equation; expects an object
+ * @param {equationHistory} eq 
+ */
+
+function _calculate(eq) {
 
   if (arrayOfNumbers.length > 0) {
-    rightNumber = Number(arrayOfNumbers.join(''));
-    equationResult = calculator.calculate(`${leftNumber} ${operator} ${rightNumber}`);
-    leftNumber = equationResult;
-    leftSideNumber = ('' + leftNumber).split('');
+    equationResult = calculator.calculate(`${eq.left} ${eq.operator} ${eq.right}`);
     displayValue.textContent = equationResult;    
-    arrayOfNumbers = [];
+    arrayOfNumbers = [];    
+    eq.result = equationResult;
   }
+  return equationResult;
 }
 
+function _hasNull(target) {
+  for (let member in target) {
+    if (target[member] == null) return true;
+  }
+  return false;
+}
