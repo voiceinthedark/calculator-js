@@ -93,6 +93,22 @@ operatorsButtons.forEach((button) => {
   });
 });
 
+clearButton.addEventListener('click', (e) => {
+  equationHistory = {
+    left: null,
+    operator: null,
+    right: null,
+    result: null,
+  };
+  displayHeader.textContent = "";
+  displayValue.textContent = 0;
+  arrayOfNumbers = [];
+  number = 0;
+  result = 0;
+  equationResult = Number.MIN_VALUE;
+  operator = null;
+});
+
 /**
  * Function to calculate the result of the equation; expects an object
  * @param {equationHistory} eq 
