@@ -34,16 +34,14 @@ const displayHeader = document.querySelector('.display-header');
 const displayValue = document.querySelector(".display-value");
 const numbersButtons = document.querySelectorAll(".number");
 const operatorsButtons = document.querySelectorAll(".operator");
+const clearButton = document.querySelector('#ce');
 
 
 
 let arrayOfNumbers = [];
 let number = 0;
-// let leftSideNumber = [0];
-// let rightSideNumber = [];
+let result = 0;
 let equationResult = Number.MIN_VALUE;
-// let leftNumber = 0;
-// let rightNumber = 0;
 let operator = null;
 equationHistory = {
   left: null,
@@ -84,7 +82,7 @@ operatorsButtons.forEach((button) => {
     } else {
       number = Number(arrayOfNumbers.join("")); 
       equationHistory.right = number;
-      let result = _calculate(equationHistory);
+      result = _calculate(equationHistory);
       operator = e.target.textContent;
       equationHistory.operator = operator;
       // console.log(equationHistory);
@@ -104,16 +102,14 @@ function _calculate(eq) {
 
   if (arrayOfNumbers.length > 0) {
     equationResult = calculator.calculate(`${eq.left} ${eq.operator} ${eq.right}`);
-    displayValue.textContent = equationResult;    
+    if(Number.isInteger(equationResult)){
+      displayValue.textContent = equationResult;
+    } else {
+      displayValue.textContent = equationResult.toFixed(2);    
+    }
     arrayOfNumbers = [];    
     eq.result = equationResult;
   }
   return equationResult;
 }
 
-function _hasNull(target) {
-  for (let member in target) {
-    if (target[member] == null) return true;
-  }
-  return false;
-}
