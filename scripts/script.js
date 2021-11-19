@@ -36,6 +36,7 @@ const numbersButtons = document.querySelectorAll(".number");
 const operatorsButtons = document.querySelectorAll(".operator");
 const clearButton = document.querySelector('#ce');
 const plusMinusButton = document.querySelector('.plusmin');
+const equalButton = document.querySelector('#equal');
 
 
 let arrayOfNumbers = [];
@@ -123,6 +124,17 @@ plusMinusButton.addEventListener('click', (e) => {
     displayValue.textContent = '-'.concat(displayValue.textContent);
     arrayOfNumbers.unshift('-');
   }
+});
+
+equalButton.addEventListener('click', (e) => {
+  number = Number(arrayOfNumbers.join(''));
+  equationHistory.right = number;
+  result = _calculate(equationHistory);  
+  // console.log(equationHistory);
+  displayValue.textContent = result;
+  equationHistory.left = null;
+  equationHistory.right = null;
+  equationHistory.operator = null;
 });
 
 /**
