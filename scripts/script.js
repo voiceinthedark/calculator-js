@@ -37,6 +37,7 @@ const operatorsButtons = document.querySelectorAll(".operator");
 const clearButton = document.querySelector('#ce');
 const plusMinusButton = document.querySelector('.plusmin');
 const equalButton = document.querySelector('#equal');
+const deleteButton = document.querySelector('#del');
 
 
 let arrayOfNumbers = [];
@@ -126,6 +127,9 @@ plusMinusButton.addEventListener('click', (e) => {
   }
 });
 
+/**
+ * Equal button methods
+ */
 equalButton.addEventListener('click', (e) => {
   number = Number(arrayOfNumbers.join(''));
   equationHistory.right = number;
@@ -135,6 +139,21 @@ equalButton.addEventListener('click', (e) => {
   equationHistory.left = null;
   equationHistory.right = null;
   equationHistory.operator = null;
+});
+
+deleteButton.addEventListener('click', (e) => {
+  console.log('in del');
+  if(displayValue.textContent.length > 1){
+    console.log(displayValue.textContent);
+    displayValue.textContent = displayValue.textContent.slice(0,-1);
+    arrayOfNumbers.pop();
+    equationHistory.result = parseFloat((''+equationHistory.result).slice(0, -1));
+  } else if(displayValue.textContent.length === 1){
+    displayValue.textContent = 0;
+    // displayValue.textContent = arrayOfNumbers.join('');
+    arrayOfNumbers[0] = 0;
+    equationHistory.result = 0;
+  }
 });
 
 /**
