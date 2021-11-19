@@ -35,7 +35,7 @@ const displayValue = document.querySelector(".display-value");
 const numbersButtons = document.querySelectorAll(".number");
 const operatorsButtons = document.querySelectorAll(".operator");
 const clearButton = document.querySelector('#ce');
-
+const plusMinusButton = document.querySelector('.plusmin');
 
 
 let arrayOfNumbers = [];
@@ -93,6 +93,9 @@ operatorsButtons.forEach((button) => {
   });
 });
 
+/**
+ * Clear button methods
+ */
 clearButton.addEventListener('click', (e) => {
   equationHistory = {
     left: null,
@@ -107,6 +110,19 @@ clearButton.addEventListener('click', (e) => {
   result = 0;
   equationResult = Number.MIN_VALUE;
   operator = null;
+});
+
+/**
+* Plus/minus button method
+*/
+plusMinusButton.addEventListener('click', (e) => {
+  if(displayValue.textContent.startsWith('-')){
+    displayValue.textContent = displayValue.textContent.slice(1);
+    arrayOfNumbers.shift();
+  } else {
+    displayValue.textContent = '-'.concat(displayValue.textContent);
+    arrayOfNumbers.unshift('-');
+  }
 });
 
 /**
