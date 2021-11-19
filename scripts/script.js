@@ -16,7 +16,6 @@ class Calculator {
   }
 
   calculate(str) {
-    // console.log(str);
     return this._switcher(...str.split(' '));
   }
 
@@ -44,7 +43,7 @@ let number = 0;
 let result = 0;
 let equationResult = Number.MIN_VALUE;
 let operator = null;
-equationHistory = {
+let equationHistory = {
   left: null,
   operator: null,
   right: null,
@@ -60,7 +59,6 @@ numbersButtons.forEach((button) => {
     } else {
       arrayOfNumbers.push(e.target.textContent);
       displayValue.textContent = arrayOfNumbers.join('');
-      // displayHeader.textContent = arrayOfNumbers.join('');
     }
   });
 });
@@ -78,6 +76,7 @@ operatorsButtons.forEach((button) => {
         equationHistory.result = _calculate(equationHistory);
       } else {
         equationHistory.left = number;
+        displayHeader.textContent += equationHistory.left;
       }
       equationHistory.operator = operator;
       displayHeader.textContent += operator;
@@ -90,7 +89,6 @@ operatorsButtons.forEach((button) => {
       operator = e.target.textContent;
       equationHistory.operator = operator;
       displayHeader.textContent += operator;
-      // console.log(equationHistory);
       equationHistory.result = result;
       equationHistory.left = equationHistory.result;
       equationHistory.right = null;
@@ -137,8 +135,8 @@ equalButton.addEventListener('click', (e) => {
   number = Number(arrayOfNumbers.join(''));
   equationHistory.right = number;
   result = _calculate(equationHistory);
-  // console.log(equationHistory);
   displayValue.textContent = result;
+  displayHeader.textContent = result;
   equationHistory.left = null;
   equationHistory.right = null;
   equationHistory.operator = null;
@@ -155,7 +153,6 @@ deleteButton.addEventListener('click', (e) => {
     );
   } else if (displayValue.textContent.length === 1) {
     displayValue.textContent = 0;
-    // displayValue.textContent = arrayOfNumbers.join('');
     arrayOfNumbers[0] = 0;
     equationHistory.result = 0;
   }
@@ -179,6 +176,5 @@ function _calculate(eq) {
     arrayOfNumbers = [];
     eq.result = equationResult;
   }
-  // displayHeader.textContent = '';
   return _.round(equationResult, 2);
 }

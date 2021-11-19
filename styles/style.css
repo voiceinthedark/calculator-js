@@ -3,10 +3,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
 
 :root{
-    --background-color: #838383;
+    --background-color: #ffffff;
     --display-bg: rgb(113, 149, 73);
     --display-fg: rgb(0, 0, 0);
     --display-fonts: 'Roboto Mono', monospace;
+    --display-header-fg: #fff;
     --numbers-btn-bg: rgb(141, 135, 135);
     --numbers-btn-fg: #fff;
     --operators-btn-bg: rgb(89, 103, 126);
@@ -73,6 +74,7 @@ button{
     height: 16px;
     font-size: 16px;
     font-weight: bolder;
+    color: var(--display-header-fg);
     
 }
 
