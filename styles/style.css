@@ -3,8 +3,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
 
 :root{
-    --background-color: #4c5e7a;
-    --display-bg: rgb(57, 73, 40);
+    --background-color: #838383;
+    --display-bg: rgb(113, 149, 73);
     --display-fg: rgb(0, 0, 0);
     --display-fonts: 'Roboto Mono', monospace;
     --numbers-btn-bg: rgb(141, 135, 135);
@@ -12,6 +12,7 @@
     --operators-btn-bg: rgb(89, 103, 126);
     --operators-btn-fg: #fff;
     --numbers-fonts: 'Changa', sans-serif;
+    --calculator-bg: rgb(37, 36, 36);
 }
 
 *, *::before, *::after{
@@ -39,15 +40,14 @@ button{
 
 .calculator {
     display: flex;
-    /* flex: 1; */
     flex-direction: column;
     border: 1px solid white;      
     min-width: 320px;  
     min-height: 480px;
-    /* max-width: 320px; */
-    /* max-height: 480px; */
     margin-top: 80px;
     padding: 4px;    
+    background-color: var(--calculator-bg);
+    border-radius: 8px;
 }
 
 /* Display*/
@@ -70,8 +70,9 @@ button{
 }
 
 .display .display-header{
-    height: 20px;
-    font-size: 20px;
+    height: 16px;
+    font-size: 16px;
+    font-weight: bolder;
     
 }
 
@@ -112,7 +113,7 @@ button{
     background-color: var(--numbers-btn-bg);
     color: var(--numbers-btn-fg);
     font-size: 32px;
-    border: 1px solid white;    
+    border: 0px solid white;    
 }
 
 .numbers-btn > .left > button:hover, .right > button:hover, .head-btns > button:hover{
