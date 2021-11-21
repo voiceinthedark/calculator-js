@@ -12,6 +12,7 @@ class Calculator {
   }
 
   _switcher(a, op, b) {
+    console.log(a, op, b);
     return this._mather[op](a, b);
   }
 
@@ -25,6 +26,10 @@ class Calculator {
 }
 
 const calculator = new Calculator();
+// Adding power method
+calculator.addMethod('**', (a, b) => {
+  return (+a) ** +b
+});
 
 /**
  * Elements capture
@@ -37,6 +42,7 @@ const clearButton = document.querySelector('#ce');
 const plusMinusButton = document.querySelector('.plusmin');
 const equalButton = document.querySelector('#equal');
 const deleteButton = document.querySelector('#del');
+const powerButtons = document.querySelectorAll('.pow');
 
 let arrayOfNumbers = [];
 let number = 0;
@@ -73,6 +79,7 @@ operatorsButtons.forEach((button) => {
         equationHistory.left = equationHistory.result;
         displayValue.textContent = equationHistory.left;
         equationHistory.right = number;
+        displayHeader.textContent += '' ?? equationHistory.right;
         equationHistory.result = _calculate(equationHistory);
       } else {
         equationHistory.left = number;
@@ -85,8 +92,8 @@ operatorsButtons.forEach((button) => {
       number = Number(arrayOfNumbers.join(''));
       equationHistory.right = number;
       displayHeader.textContent += equationHistory.right;
-      result = _calculate(equationHistory);
       operator = e.target.textContent;
+      result = _calculate(equationHistory);
       equationHistory.operator = operator;
       displayHeader.textContent += operator;
       equationHistory.result = result;
@@ -107,7 +114,7 @@ clearButton.addEventListener('click', (e) => {
     result: null,
   };
   displayHeader.textContent = '';
-  displayValue.textContent = 0;
+  displayValue.textContent = '';
   arrayOfNumbers = [];
   number = 0;
   result = 0;
@@ -142,21 +149,46 @@ equalButton.addEventListener('click', (e) => {
   equationHistory.operator = null;
 });
 
+/**
+ * Delete button methods
+ */
+
 deleteButton.addEventListener('click', (e) => {
   console.log('in del');
   if (displayValue.textContent.length > 1) {
-    console.log(displayValue.textContent);
     displayValue.textContent = displayValue.textContent.slice(0, -1);
     arrayOfNumbers.pop();
     equationHistory.result = parseFloat(
       ('' + equationHistory.result).slice(0, -1)
     );
   } else if (displayValue.textContent.length === 1) {
-    displayValue.textContent = 0;
-    arrayOfNumbers[0] = 0;
-    equationHistory.result = 0;
+    displayValue.textContent = '';
+    arrayOfNumbers[0] = '';
+    equationHistory.result = null;
   }
 });
+
+powerButtons.forEach( button => button.addEventListener('click', (e) => {
+  // debugger;
+  if (e.target.innerHTML == 'x²') {
+    let result = calculator.calculate(`${equationHistory.left ?? displayValue.textContent} ${'**'} ${'2'}`);
+    equationHistory.result = _.round(result, 2);
+    equationHistory.left = null;
+    equationHistory.right = null;
+    equationHistory.operator = null;
+    displayValue.textContent = equationHistory.result;
+    arrayOfNumbers = [];
+  } else if (e.target.innerHTML == 'x&sup3;') {
+    let result = _calculate({
+      left: equationHistory.left,
+      operator: '**',
+      right: 3,
+      result: null,
+    });
+    equationHistory.result = result;
+  } else if (e.target.innerText == 'y') {
+  }
+}));
 
 /**
  * Function to calculate the result of the equation; expects an object
@@ -174,7 +206,7 @@ function _calculate(eq) {
       displayValue.textContent = equationResult.toFixed(2);
     }
     arrayOfNumbers = [];
-    eq.result = equationResult;
+    eq.result = _.round(equationResult, 2);
   }
   return _.round(equationResult, 2);
 }

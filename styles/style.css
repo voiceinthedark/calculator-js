@@ -8,6 +8,7 @@
     --display-fg: rgb(0, 0, 0);
     --display-fonts: 'Roboto Mono', monospace;
     --display-header-fg: #fff;
+    --display-header-btns-bg: rgb(36, 77, 131); 
     --numbers-btn-bg: rgb(141, 135, 135);
     --numbers-btn-fg: #fff;
     --operators-btn-bg: rgb(89, 103, 126);
@@ -83,17 +84,19 @@ button{
 .calculator .head-btns {
     display: grid;
     /* border: 1px solid white; */
-    grid-template-columns: 1.75fr 1.25fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-gap: 4px;
     padding-top: 5px;
 }
 
 .head-btns > button{
-    background-color: var(--numbers-btn-bg);
+    background-color: var(--display-header-btns-bg);
     color: var(--numbers-btn-fg);
-    font-size: 38px;
-    border: 1px solid white;
+    font-size: 18px;
+    border: 0px solid white;
     /* font-family: var(--numbers-fonts); */
+    height: 28px;
+    font-family: var(--display-fonts);
 }
 
 .head-btns > #clear {
