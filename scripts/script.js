@@ -160,12 +160,15 @@ deleteButton.addEventListener('click', (e) => {
 function _deleteNumber(){
    if (displayValue.textContent.length > 1) {
      displayValue.textContent = displayValue.textContent.slice(0, -1);
-    //  let num = arrayOfNumbers.pop();
-    //  console.log('deleting', num);
-    //  console.log(arrayOfNumbers);
+     displayHeader.textContent = displayValue.textContent;
      equationHistory.result = parseFloat(
        ('' + equationHistory.result).slice(0, -1)
-     );
+       );
+      console.log(equationHistory.result);
+      if(displayValue.textContent.endsWith('.')){
+        displayValue.textContent = displayValue.textContent.slice(0, -1);
+        displayHeader.textContent = displayValue.textContent;
+      }
    } else if (displayValue.textContent.length === 1) {
      displayValue.textContent = '';
      arrayOfNumbers[0] = '';
