@@ -182,7 +182,6 @@ function _deleteNumber(){
  */
 powerButtons.forEach( button => button.addEventListener('click', (e) => {
   // debugger;
-  // console.log(e.target.innerHTML);
   let toPower = e.target.innerHTML;
 
   switch (toPower) {
@@ -193,7 +192,7 @@ powerButtons.forEach( button => button.addEventListener('click', (e) => {
     case 'x³':
       // console.log('matching', toPower);
       _power('3');
-      break;
+      break;      
     default:
       console.log('not matching');
       break;
@@ -221,6 +220,9 @@ function _power(p) {
   arrayOfNumbers = [];
 }
 
+function _powerY(y) {
+    
+}
 /**
  * Function to calculate the result of the equation; expects an object
  * @param {equationHistory} eq
@@ -250,6 +252,9 @@ function _calculate(eq) {
  */
 
 function _operate(e, operatorCode = e.target.textContent){
+  if(e.target.textContent === 'y'){
+    operatorCode = '**';
+  }
   if (equationHistory.left == null) {
     number = Number(arrayOfNumbers.join(''));
     operator = operatorCode;
