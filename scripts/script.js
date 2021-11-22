@@ -6,7 +6,7 @@ class Calculator {
     this._mather = {
       '+': (a, b) => +a + +b,
       '-': (a, b) => +a - +b,
-      'x': (a, b) => +a * +b,
+      '*': (a, b) => +a * +b,
       '/': (a, b) => +a / +b,
     };
   }
@@ -43,6 +43,10 @@ const plusMinusButton = document.querySelector('.plusmin');
 const equalButton = document.querySelector('#equal');
 const deleteButton = document.querySelector('#del');
 const powerButtons = document.querySelectorAll('.pow');
+const leftPanel = document.querySelector('.left');
+const calculatorContainer = document.querySelector('.calculator');
+
+// leftPanel.focus();
 
 let arrayOfNumbers = [];
 let number = 0;
@@ -66,40 +70,28 @@ numbersButtons.forEach((button) => {
       arrayOfNumbers.push(e.target.textContent);
       displayValue.textContent = arrayOfNumbers.join('');
     }
-  });
+  });  
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === '.' && arrayOfNumbers.includes('.')) {
+  } else if('1 2 3 4 5 6 7 8 9 0 .'.split(' ').includes(e.key)) {
+    console.log('capturing numbers');
+    arrayOfNumbers.push(e.key);
+    displayValue.textContent = arrayOfNumbers.join('');
+  } else if('+ - * /'.split(' ').includes(e.key)){    
+    console.log('capturing', e.key);
+    // equationHistory.operator = e.key;
+    _operate(e, e.key);
+  } else if(e.key === 'Enter'){
+    _equal();
+  }
 });
 
 operatorsButtons.forEach((button) => {
   button.addEventListener('click', (e) => {
     // debugger;
-    if (equationHistory.left == null) {
-      number = Number(arrayOfNumbers.join(''));
-      operator = e.target.textContent;
-      if (equationHistory.result) {
-        equationHistory.left = equationHistory.result;
-        displayValue.textContent = equationHistory.left;
-        equationHistory.right = number;
-        displayHeader.textContent += '' ?? equationHistory.right;
-        equationHistory.result = _calculate(equationHistory);
-      } else {
-        equationHistory.left = number;
-        displayHeader.textContent += equationHistory.left;
-      }
-      equationHistory.operator = operator;
-      displayHeader.textContent += operator;
-      arrayOfNumbers = [];
-    } else {
-      number = Number(arrayOfNumbers.join(''));
-      equationHistory.right = number;
-      displayHeader.textContent += equationHistory.right;
-      operator = e.target.textContent;
-      result = _calculate(equationHistory);
-      equationHistory.operator = operator;
-      displayHeader.textContent += operator;
-      equationHistory.result = result;
-      equationHistory.left = equationHistory.result;
-      equationHistory.right = null;
-    }
+    _operate(e);
   });
 });
 
@@ -139,14 +131,7 @@ plusMinusButton.addEventListener('click', (e) => {
  * Equal button methods
  */
 equalButton.addEventListener('click', (e) => {
-  number = Number(arrayOfNumbers.join(''));
-  equationHistory.right = number;
-  result = _calculate(equationHistory);
-  displayValue.textContent = result;
-  displayHeader.textContent = result;
-  equationHistory.left = null;
-  equationHistory.right = null;
-  equationHistory.operator = null;
+  _equal();
 });
 
 /**
@@ -154,7 +139,7 @@ equalButton.addEventListener('click', (e) => {
  */
 
 deleteButton.addEventListener('click', (e) => {
-  console.log('in del');
+  // console.log('in del');
   if (displayValue.textContent.length > 1) {
     displayValue.textContent = displayValue.textContent.slice(0, -1);
     arrayOfNumbers.pop();
@@ -170,25 +155,46 @@ deleteButton.addEventListener('click', (e) => {
 
 powerButtons.forEach( button => button.addEventListener('click', (e) => {
   // debugger;
-  if (e.target.innerHTML == 'x²') {
-    let result = calculator.calculate(`${equationHistory.left ?? displayValue.textContent} ${'**'} ${'2'}`);
-    equationHistory.result = _.round(result, 2);
-    equationHistory.left = null;
-    equationHistory.right = null;
-    equationHistory.operator = null;
-    displayValue.textContent = equationHistory.result;
-    arrayOfNumbers = [];
-  } else if (e.target.innerHTML == 'x&sup3;') {
-    let result = _calculate({
-      left: equationHistory.left,
-      operator: '**',
-      right: 3,
-      result: null,
-    });
-    equationHistory.result = result;
-  } else if (e.target.innerText == 'y') {
+  // console.log(e.target.innerHTML);
+  let toPower = e.target.innerHTML;
+
+  switch (toPower) {
+    case 'x²':
+      // console.log('matching', toPower);
+      _power('2');
+      break;
+    case 'x³':
+      // console.log('matching', toPower);
+      _power('3');
+      break;
+    default:
+      console.log('not matching');
+      break;
   }
+
+  
 }));
+
+/**
+ * Helper function for the power buttons functionality
+ * @param {to the power of} p 
+ */
+
+function _power(p) {
+  arrayOfNumbers = displayValue.textContent.split('');
+  let eq = {
+    left: equationHistory.left ?? displayValue.textContent,
+    operator: '**',
+    right: p,
+  }
+  result = _calculate(eq);
+  equationHistory.result = _.round(result, 2);
+  equationHistory.left = null;
+  equationHistory.right = null;
+  equationHistory.operator = null;
+  displayValue.textContent = equationHistory.result;
+  arrayOfNumbers = [];
+}
 
 /**
  * Function to calculate the result of the equation; expects an object
@@ -209,4 +215,47 @@ function _calculate(eq) {
     eq.result = _.round(equationResult, 2);
   }
   return _.round(equationResult, 2);
+}
+
+
+function _operate(e, operatorCode = e.target.textContent){
+  if (equationHistory.left == null) {
+    number = Number(arrayOfNumbers.join(''));
+    operator = operatorCode;
+    if (equationHistory.result) {
+      equationHistory.left = equationHistory.result;
+      displayValue.textContent = equationHistory.left;
+      equationHistory.right = number;
+      displayHeader.textContent += '' ?? equationHistory.right;
+      equationHistory.result = _calculate(equationHistory);
+    } else {
+      equationHistory.left = number;
+      displayHeader.textContent += equationHistory.left;
+    }
+    equationHistory.operator = operator;
+    displayHeader.textContent += operator;
+    arrayOfNumbers = [];
+  } else {
+    number = Number(arrayOfNumbers.join(''));
+    equationHistory.right = number;
+    displayHeader.textContent += equationHistory.right;
+    operator = operatorCode;
+    result = _calculate(equationHistory);
+    equationHistory.operator = operator;
+    displayHeader.textContent += operator;
+    equationHistory.result = result;
+    equationHistory.left = equationHistory.result;
+    equationHistory.right = null;
+  }
+}
+
+function _equal() {
+  number = Number(arrayOfNumbers.join(''));
+  equationHistory.right = number;
+  result = _calculate(equationHistory);
+  displayValue.textContent = result;
+  displayHeader.textContent = result;
+  equationHistory.left = null;
+  equationHistory.right = null;
+  equationHistory.operator = null;  
 }
