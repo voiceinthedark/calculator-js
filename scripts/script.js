@@ -49,8 +49,8 @@ const calculatorContainer = document.querySelector('.calculator');
 // leftPanel.focus();
 
 let arrayOfNumbers = [];
-let number = 0;
-let result = 0;
+let number = null;
+let result = null;
 let equationResult = Number.MIN_VALUE;
 let operator = null;
 let equationHistory = {
@@ -109,8 +109,8 @@ clearButton.addEventListener('click', (e) => {
   displayHeader.textContent = '';
   displayValue.textContent = '';
   arrayOfNumbers = [];
-  number = 0;
-  result = 0;
+  number = null;
+  result = null;
   equationResult = Number.MIN_VALUE;
   operator = null;
 });
@@ -186,11 +186,9 @@ powerButtons.forEach( button => button.addEventListener('click', (e) => {
 
   switch (toPower) {
     case 'x²':
-      // console.log('matching', toPower);
       _power('2');
       break;
     case 'x³':
-      // console.log('matching', toPower);
       _power('3');
       break;      
     default:
