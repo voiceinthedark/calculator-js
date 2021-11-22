@@ -81,10 +81,11 @@ document.addEventListener('keydown', (e) => {
     displayValue.textContent = arrayOfNumbers.join('');
   } else if('+ - * /'.split(' ').includes(e.key)){    
     console.log('capturing', e.key);
-    // equationHistory.operator = e.key;
     _operate(e, e.key);
-  } else if(e.key === 'Enter'){
+  } else if(e.key === 'Enter' || e.key === '='){
     _equal();
+  } else if(e.key === 'Backspace'){
+    _deleteNumber();
   }
 });
 
@@ -135,24 +136,47 @@ equalButton.addEventListener('click', (e) => {
 });
 
 /**
+ * Equal function, capture the keyboard input of Enter
+ */
+function _equal() {
+  number = Number(arrayOfNumbers.join(''));
+  equationHistory.right = number;
+  result = _calculate(equationHistory);
+  displayValue.textContent = result;
+  displayHeader.textContent = result;
+  equationHistory.left = null;
+  equationHistory.right = null;
+  equationHistory.operator = null;  
+}
+
+/**
  * Delete button methods
  */
 
 deleteButton.addEventListener('click', (e) => {
-  // console.log('in del');
-  if (displayValue.textContent.length > 1) {
-    displayValue.textContent = displayValue.textContent.slice(0, -1);
-    arrayOfNumbers.pop();
-    equationHistory.result = parseFloat(
-      ('' + equationHistory.result).slice(0, -1)
-    );
-  } else if (displayValue.textContent.length === 1) {
-    displayValue.textContent = '';
-    arrayOfNumbers[0] = '';
-    equationHistory.result = null;
-  }
+ _deleteNumber();
 });
 
+function _deleteNumber(){
+   if (displayValue.textContent.length > 1) {
+     displayValue.textContent = displayValue.textContent.slice(0, -1);
+    //  let num = arrayOfNumbers.pop();
+    //  console.log('deleting', num);
+    //  console.log(arrayOfNumbers);
+     equationHistory.result = parseFloat(
+       ('' + equationHistory.result).slice(0, -1)
+     );
+   } else if (displayValue.textContent.length === 1) {
+     displayValue.textContent = '';
+     arrayOfNumbers[0] = '';
+     equationHistory.result = null;
+   }
+}
+
+
+/**
+ * Power Buttons methods
+ */
 powerButtons.forEach( button => button.addEventListener('click', (e) => {
   // debugger;
   // console.log(e.target.innerHTML);
@@ -170,9 +194,7 @@ powerButtons.forEach( button => button.addEventListener('click', (e) => {
     default:
       console.log('not matching');
       break;
-  }
-
-  
+  }  
 }));
 
 /**
@@ -217,6 +239,12 @@ function _calculate(eq) {
   return _.round(equationResult, 2);
 }
 
+/**
+ * Main operator code, accepts an operatorCode which defaults to
+ * the textContent of the target, or the event key in case of keyboard input.
+ * @param {event} e 
+ * @param {Code for operation} operatorCode 
+ */
 
 function _operate(e, operatorCode = e.target.textContent){
   if (equationHistory.left == null) {
@@ -249,13 +277,3 @@ function _operate(e, operatorCode = e.target.textContent){
   }
 }
 
-function _equal() {
-  number = Number(arrayOfNumbers.join(''));
-  equationHistory.right = number;
-  result = _calculate(equationHistory);
-  displayValue.textContent = result;
-  displayHeader.textContent = result;
-  equationHistory.left = null;
-  equationHistory.right = null;
-  equationHistory.operator = null;  
-}
